@@ -10,8 +10,8 @@ const dev = {
 const staging = {
   NAME: "Staging Mode",
   // API_URL: "http://staging.questcode.org",
-  API_URL: "http://questcode.org:30020",
-  API_URL_SCM: "http://questcode.org:30030",
+  API_URL: "http://192.168.0.101:32654",
+  API_URL_SCM: "http://192.168.0.101:31241",
   s3: {
     BUCKET: "YOUR_DEV_S3_UPLOADS_BUCKET_NAME"
   }

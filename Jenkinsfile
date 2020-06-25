@@ -13,7 +13,6 @@ podTemplate(
     def REPOS
     def IMAGE_VERSION
     def IMAGE_NAME = "questcode-frontend"
-    def ENVIRONMENT = "staging"
     def GIT_URL = "git@github.com:sandrocaetano/questcode-frontend.git"
     def CHARTMUSEUM_URL = "http://chartmuseum-chartmuseum:8080"
     def DEPLOY_NAME = "questcode-frontend"

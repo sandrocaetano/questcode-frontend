@@ -26,6 +26,8 @@ podTemplate(
             REPOS = checkout scm
             GIT_BRANCH = REPOS.GIT_BRANCH
 
+            echo GIT_BRANCH
+
             if(GIT_BRANCH.equals("origin/master")) {
                 KUBE_NAMESPACE = "production"
             } else if(GIT_BRANCH.equals("origin/develop")) {

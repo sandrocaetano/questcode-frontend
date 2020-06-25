@@ -28,9 +28,9 @@ podTemplate(
 
             echo GIT_BRANCH
 
-            if(GIT_BRANCH.equals("origin/master")) {
+            if(GIT_BRANCH.equals("master")) {
                 KUBE_NAMESPACE = "production"
-            } else if(GIT_BRANCH.equals("origin/develop")) {
+            } else if(GIT_BRANCH.equals("develop")) {
                 KUBE_NAMESPACE = "staging"
                 NODE_PORT = "31080"
             } else {

@@ -44,10 +44,10 @@ podTemplate(
         stage('Package') {
             container('docker-container') {
                 echo 'Iniciando Empacotamento com Docker'
-                withVault(configuration: [timeout: 60, vaultCredentialId: 'token-dockrehub', vaultUrl: 'http://192.168.0.18:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub/credentials', secretValues: [[vaultKey: 'DOCKER_HUB_USER'], [vaultKey: 'DOCKER_HUB_PASSWORD']]]]) {
-                    sh "docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
-                    sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NPM_ENV='${KUBE_NAMESPACE}' ."
-                    sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION}"
+                withVault(configuration: [timeout: 60, vaultCredentialId: 'token-dockrehub', vaultUrl: 'http://192.168.0.18:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub/credentials', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
+                    sh "docker login -u ${username} -p ${password}"
+                    sh "docker build -t ${username}/${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NPM_ENV='${KUBE_NAMESPACE}' ."
+                    sh "docker push ${username}/${IMAGE_NAME}:${IMAGE_VERSION}"
                 }
             }
         }

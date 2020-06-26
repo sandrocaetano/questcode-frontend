@@ -18,6 +18,10 @@ podTemplate(
     def DEPLOY_NAME = "questcode-frontend"
     def DEPLOY_CHART = "actarlab/questcode-frontend"
     def INGRESS_HOST = "questcode.org"
+    def VAULT_SERVER = [vaultUrl: 'http://192.168.0.18:8200',
+                         vaultCredentialId: 'vault-token',
+                         engineVersion: 1]
+
 
     node(LABEL_ID) {
         stage('Checkout') {
@@ -43,11 +47,15 @@ podTemplate(
         }
         stage('Package') {
             container('docker-container') {
+                def SECRETS = [
+                    [path: 'secret/jenkins/dockerhub/credentials', engineVersion: 1, secretValues: [
+                        [envVar: 'DOCKER_HUB_USER', vaultKey: 'username'],
+                        [envVar: 'DOCKER_HUB_PASSWORD', vaultKey: 'password']]]]
+
                 echo 'Iniciando Empacotamento com Docker'
-                withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUrl: 'http://192.168.0.18:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub/credentials', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
-                    sh "docker login -u ${username} -p ${password}"
-                    sh "docker build -t ${username}/${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NPM_ENV='${KUBE_NAMESPACE}' ."
-                    sh "docker push ${username}/${IMAGE_NAME}:${IMAGE_VERSION}"
+                withVault([configuration: VAULT_SERVER, vaultSecrets: SECRETS]) {
+                    sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NPM_ENV='${KUBE_NAMESPACE}' ."
+                    sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION}"
                 }
             }
         }

@@ -17,7 +17,7 @@ podTemplate(
     def CHARTMUSEUM_URL = "http://chartmuseum-lab-chartmuseum:8080"
     def DEPLOY_NAME = "questcode-frontend"
     def DEPLOY_CHART = "actarlab/questcode-frontend"
-    def NODE_PORT = "30080"
+    def INGRESS_HOST = "questcode.org"
 
     node(LABEL_ID) {
         stage('Checkout') {
@@ -31,7 +31,7 @@ podTemplate(
                 KUBE_NAMESPACE = "production"
             } else if(GIT_BRANCH.equals("develop")) {
                 KUBE_NAMESPACE = "staging"
-                NODE_PORT = "31080"
+                INGRESS_HOST = "staging.questcode.org"
             } else {
                 def error = "Nao existe pipeline para a branch ${GIT_BRANCH}"
                 echo error
@@ -58,7 +58,7 @@ podTemplate(
                 echo 'Iniciando o Deploy com Helm'
                 sh "helm repo add actarlab ${CHARTMUSEUM_URL}"
                 sh 'helm repo update'
-                sh "helm upgrade --install ${DEPLOY_NAME} ${DEPLOY_CHART} --set image.tag=${IMAGE_VERSION} --set service.nodePort=${NODE_PORT} -n ${KUBE_NAMESPACE}"
+                sh "helm upgrade --install ${DEPLOY_NAME} ${DEPLOY_CHART} --set image.tag=${IMAGE_VERSION} --set ingress.host[0]=${INGRESS_HOST} -n ${KUBE_NAMESPACE}"
             }
         }
     }

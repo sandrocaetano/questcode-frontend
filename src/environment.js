@@ -19,7 +19,7 @@ const staging = {
 
 const prod = {
   NAME: "Production",
-  API_URL: "http://questcode.actar.lab",
+  API_URL: "http://questcode.org:31383",
   s3: {
     BUCKET: "YOUR_PROD_S3_UPLOADS_BUCKET_NAME"
   }

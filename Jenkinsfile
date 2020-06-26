@@ -44,7 +44,7 @@ podTemplate(
         stage('Package') {
             container('docker-container') {
                 echo 'Iniciando Empacotamento com Docker'
-                withCredentials([usernamePassword(credentialsId: 'dockerhubid', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USER')]) {
+                withVault(configuration: [timeout: 60, vaultCredentialId: 'token-dockrehub', vaultUrl: 'http://192.168.0.18:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub/credentials', secretValues: [[vaultKey: 'DOCKER_HUB_USER'], [vaultKey: 'DOCKER_HUB_PASSWORD']]]]) {
                     sh "docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
                     sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NPM_ENV='${KUBE_NAMESPACE}' ."
                     sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION}"

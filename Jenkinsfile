@@ -54,6 +54,7 @@ podTemplate(
 
                 echo 'Iniciando Empacotamento com Docker'
                 withVault([configuration: VAULT_SERVER, vaultSecrets: SECRETS]) {
+                    sh "docker login -u ${DOCKEER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}" 
                     sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION} --build-arg NPM_ENV='${KUBE_NAMESPACE}' ."
                     sh "docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_VERSION}"
                 }

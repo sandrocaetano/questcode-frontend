@@ -17,7 +17,7 @@ podTemplate(
     def CHARTMUSEUM_URL = "http://chartmuseum-lab-chartmuseum:8080"
     def DEPLOY_NAME = "questcode-frontend"
     def DEPLOY_CHART = "actarlab/questcode-frontend"
-    def INGRESS_HOST = "questcode.org"
+    def INGRESS_HOST = "questcode.actar.lab:31383"
     def VAULT_SERVER = [vaultUrl: 'http://192.168.0.18:8200',
                          vaultCredentialId: 'vault-token',
                          engineVersion: 1]
@@ -35,7 +35,7 @@ podTemplate(
                 KUBE_NAMESPACE = "production"
             } else if(GIT_BRANCH.equals("develop")) {
                 KUBE_NAMESPACE = "staging"
-                INGRESS_HOST = "staging.questcode.org"
+                INGRESS_HOST = "staging.questcode.actar.lab:31383"
             } else {
                 def error = "Nao existe pipeline para a branch ${GIT_BRANCH}"
                 echo error

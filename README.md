@@ -1,3 +1,6 @@
+https://blog.ruanbekker.com/blog/2019/05/06/setup-hashicorp-vault-server-on-docker-and-cli-guide/
+
+
 # DEV
 Criar aplicação via Facebook create-react-app  
 Configurar o CDNs:  
